@@ -270,7 +270,7 @@ const Farms: React.FC = () => {
       <ControlContainer>
         <ViewControls>
           <ToggleWrapper>
-            <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} />
+            <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} scale="sm" />
             <Text> {TranslateString(1116, 'Staked only')}</Text>
           </ToggleWrapper>
           <FarmTabButtons />

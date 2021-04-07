@@ -66,11 +66,11 @@ const App: React.FC = () => {
             <Route path="/staking">
               <Redirect to="/pools" />
             </Route>
+            <Route path="/profile">
+              <Profile />
+            </Route>
             <Route path="/syrup">
               <Redirect to="/pools" />
-            </Route>
-            <Route path="/nft">
-              <Redirect to="/collectibles" />
             </Route>
             {/* 404 */}
             <Route component={NotFound} />
