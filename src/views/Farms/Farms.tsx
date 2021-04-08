@@ -31,6 +31,7 @@ const ControlContainer = styled.div`
   width: 100%;
   align-items: center;
   position: relative;
+  margin-bottom: 20px;
 
   justify-content: space-between;
   flex-direction: column;
@@ -264,13 +265,13 @@ const Farms: React.FC = () => {
 
   return (
     <Page>
-      <Heading size="lg" color="text" style={{ textAlign: 'center' }}>
+      <Heading size="xl" color="text" style={{ textAlign: 'center', marginBottom: "10px" }}>
         {TranslateString(999, 'Stake Liquidity Pool (LP) tokens to earn.')}
       </Heading>
       <ControlContainer>
         <ViewControls>
           <ToggleWrapper>
-            <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} scale="sm" />
+            <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} />
             <Text> {TranslateString(1116, 'Staked only')}</Text>
           </ToggleWrapper>
           <FarmTabButtons />
