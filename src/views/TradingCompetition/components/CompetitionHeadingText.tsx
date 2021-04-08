@@ -1,4 +1,4 @@
-import { Heading } from '@pancakeswap-libs/uikit'
+import { Heading } from '@gametoken/uikit'
 import styled from 'styled-components'
 
 const H1SizeStyles = (theme) => `

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardBody, Heading } from '@pancakeswap-libs/uikit'
+import { Card, CardBody, Heading } from '@gametoken/uikit'
 import styled, { useTheme } from 'styled-components'
 import { TwitterTimelineEmbed } from 'react-twitter-embed'
 

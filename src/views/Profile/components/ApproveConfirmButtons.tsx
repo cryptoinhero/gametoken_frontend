@@ -7,7 +7,7 @@ import {
   ChevronDownIcon,
   Box,
   Flex,
-} from '@pancakeswap-libs/uikit'
+} from '@gametoken/uikit'
 import useI18n from 'hooks/useI18n'
 
 interface ApproveConfirmButtonsProps {
