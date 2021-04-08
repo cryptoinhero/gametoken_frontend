@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, CardBody, Heading } from '@pancakeswap-libs/uikit'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { TwitterTimelineEmbed } from 'react-twitter-embed'
 
 const StyledTweetCard = styled(Card)`
@@ -8,6 +8,7 @@ const StyledTweetCard = styled(Card)`
 `
 
 const TweetCard = () => {
+  const theme = useTheme();
   return (
     <StyledTweetCard>
       <CardBody>
@@ -19,6 +20,7 @@ const TweetCard = () => {
           noHeader
           noBorders
           noFooter
+          theme={theme.isDark ? "dark": ""}
         />
       </CardBody>
     </StyledTweetCard>
