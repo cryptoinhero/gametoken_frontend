@@ -17,7 +17,7 @@ const farms: FarmConfig[] = [
     lpSymbol: 'GME-BNB LP',
     lpAddresses: {
       97: '',
-      56: '0xA527a61703D82139F8a06Bc30097cC9CAA2df5A6',
+      56: '0x1020c21B153a7E1941a1458d61286955f1042ECA',
     },
     token: tokens.gme,
     quoteToken: tokens.wbnb,

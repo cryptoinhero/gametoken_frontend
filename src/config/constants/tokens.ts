@@ -6,7 +6,7 @@ const tokens = {
   gme: {
     symbol: 'GME',
     address: {
-      56: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
+      56: '0x171BB6a358B7E769B1eB3E7b2Aab779423CBeee0',
       97: '',
     },
     decimals: 18,
@@ -582,8 +582,8 @@ const tokens = {
   syrup: {
     symbol: 'SYRUP',
     address: {
-      56: '0x009cF7bC57584b7998236eff51b98A168DceA9B0',
-      97: '0xfE1e507CeB712BDe086f3579d2c03248b2dB77f9',
+      56: '0x171BB6a358B7E769B1eB3E7b2Aab779423CBeee0',
+      97: '',
     },
     decimals: 18,
     projectLink: 'https://pancakeswap.finance/',
