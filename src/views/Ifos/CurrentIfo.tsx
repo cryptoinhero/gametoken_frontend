@@ -48,12 +48,12 @@ const Ifo = () => {
           <Title as="h2">{TranslateString(592, 'How to take part')}</Title>
           <Heading mb="16px">{TranslateString(594, 'Before Sale')}:</Heading>
           <List>
-            <li>{TranslateString(596, 'Buy CAKE and BNB tokens')}</li>
-            <li>{TranslateString(598, 'Get CAKE-BNB LP tokens by adding CAKE and BNB liquidity')}</li>
+            <li>{TranslateString(596, 'Buy GME and BNB tokens')}</li>
+            <li>{TranslateString(598, 'Get GME-BNB LP tokens by adding GME and BNB liquidity')}</li>
           </List>
           <Flex mb="16px">
             <LinkExternal href="https://exchange.pancakeswap.finance/#/swap" mr="16px">
-              {TranslateString(1060, 'Buy CAKE')}
+              {TranslateString(1060, 'Buy GME')}
             </LinkExternal>
             <LinkExternal href="https://exchange.pancakeswap.finance/#/add/BNB/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82">
               {TranslateString(1062, 'Get LP tokens')}

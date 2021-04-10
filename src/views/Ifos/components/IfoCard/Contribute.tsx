@@ -34,7 +34,7 @@ const Contribute: React.FC<ContributeProps> = ({
   const { toastSuccess } = useToast()
 
   const handleContributeSuccess = (amount: BigNumber) => {
-    toastSuccess('Success!', `You have contributed ${getBalanceNumber(amount)} CAKE-BNB LP tokens to this IFO!`)
+    toastSuccess('Success!', `You have contributed ${getBalanceNumber(amount)} GME-BNB LP tokens to this IFO!`)
     addUserContributedAmount(amount)
   }
 
@@ -52,7 +52,7 @@ const Contribute: React.FC<ContributeProps> = ({
     <Box>
       <Flex mb="4px">
         <Text as="span" bold fontSize="12px" mr="4px" textTransform="uppercase">
-          CAKE-BNB LP
+          GME-BNB LP
         </Text>
         <Text as="span" color="textSubtle" fontSize="12px" textTransform="uppercase" bold>
           Committed
