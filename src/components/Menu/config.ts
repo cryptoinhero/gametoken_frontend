@@ -12,11 +12,11 @@ const config: MenuEntry[] = [
     items: [
       {
         label: 'Exchange',
-        href: 'http://localhost:3000',
+        href: 'http://swap.kizunacoin.net',
       },
       {
         label: 'Liquidity',
-        href: 'http://localhost:3000/#/pool',
+        href: 'http://swap.kizunacoin.net/#/pool',
       },
     ],
   },
