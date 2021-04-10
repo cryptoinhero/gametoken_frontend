@@ -49,7 +49,7 @@ const Coming: React.FC = () => {
         <Button
           variant="secondary"
           as="a"
-          href="https://docs.google.com/forms/d/e/1FAIpQLScGdT5rrVMr4WOWr08pvcroSeuIOtEJf1sVdQGVdcAOqryigQ/viewform"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSdBO99MHdk3KkqcxYbGWpJwT4WMTKugz3PTv7URFAL0BG5Gsw/viewform"
           external
           width="100%"
           mb="16px"
