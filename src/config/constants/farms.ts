@@ -42,6 +42,16 @@ const farms: FarmConfig[] = [
     token: tokens.eth,
     quoteToken: tokens.wbnb,
   },
+  {
+    pid: 4,
+    lpSymbol: 'BUSD-GME LP',
+    lpAddresses: {
+      97: '',
+      56: '0xddBf610d1F2aaC3D532622459014696FCf0904Ea',
+    },
+    token: tokens.busd,
+    quoteToken: tokens.gme,
+  },
 ]
 
 export default farms

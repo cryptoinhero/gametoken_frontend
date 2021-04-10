@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Team } from 'config/constants/types'
 import { getWeb3NoAccount } from 'utils/web3'
 import useRefresh from 'hooks/useRefresh'
+import tokens from 'config/constants/tokens';
 import {
   fetchFarmsPublicDataAsync,
   fetchPoolsPublicDataAsync,
@@ -21,6 +22,8 @@ import { fetchProfile } from './profile'
 import { fetchTeam, fetchTeams } from './teams'
 import { fetchAchievements } from './achievements'
 import { fetchPrices } from './prices'
+
+const ZERO = new BigNumber(0)
 
 export const useFetchPublicData = () => {
   const dispatch = useDispatch()
@@ -200,14 +203,22 @@ export const useGetApiPrice = (token: string) => {
   return prices[token.toLowerCase()]
 }
 
-export const usePriceCakeBusd = (): BigNumber => {
-  const ZERO = new BigNumber(0)
-  const cakeBnbFarm = useFarmFromPid(1)
-  const bnbBusdFarm = useFarmFromPid(2)
+export const usePriceBnbBusd = (): BigNumber => {
+  const pid = 1 // GME-BNB LP
+  const gmePriceUSD = usePriceCakeBusd();
+  const farm = useFarmFromPid(pid)
+  return farm.tokenPriceVsQuote ? gmePriceUSD.div(farm.tokenPriceVsQuote) : ZERO
+}
 
-  const bnbBusdPrice = bnbBusdFarm.tokenPriceVsQuote ? new BigNumber(1).div(bnbBusdFarm.tokenPriceVsQuote) : ZERO
-  const cakeBusdPrice = cakeBnbFarm.tokenPriceVsQuote ? bnbBusdPrice.times(cakeBnbFarm.tokenPriceVsQuote) : ZERO
-  
+export const usePriceCakeBusd = (): BigNumber => {
+  const pid = 4 // BUSD-GME LP
+  // const cakeBnbFarm = useFarmFromPid(1)
+  // const bnbBusdFarm = useFarmFromPid(2)
+
+  // const bnbBusdPrice = bnbBusdFarm.tokenPriceVsQuote ? new BigNumber(1).div(bnbBusdFarm.tokenPriceVsQuote) : ZERO
+  // const cakeBusdPrice = cakeBnbFarm.tokenPriceVsQuote ? bnbBusdPrice.times(cakeBnbFarm.tokenPriceVsQuote) : ZERO
+  const gmeBusdFarm = useFarmFromPid(pid);
+  const cakeBusdPrice = gmeBusdFarm.tokenPriceVsQuote ?  new BigNumber(1).div(gmeBusdFarm.tokenPriceVsQuote) : ZERO
   return cakeBusdPrice
 }
 
@@ -218,4 +229,26 @@ export const useBlock = () => {
 
 export const useInitialBlock = () => {
   return useSelector((state: State) => state.block.initialBlock)
+}
+
+export const useTotalValue = (): BigNumber => {
+  const farms = useFarms();
+  const bnbPrice = usePriceBnbBusd();
+  const gmePrice = usePriceCakeBusd();
+  let value = new BigNumber(0);
+  for (let i = 0; i < farms.length; i++) {
+    const farm = farms[i]
+    if (farm.lpTotalInQuoteToken) {
+      let val;
+      if (farm.quoteToken === tokens.wbnb) {
+        val = (bnbPrice.times(farm.lpTotalInQuoteToken));
+      }else if (farm.quoteToken === tokens.gme) {
+        val = (gmePrice.times(farm.lpTotalInQuoteToken));
+      }else{
+        val = (farm.lpTotalInQuoteToken);
+      }
+      value = value.plus(val);
+    }
+  }
+  return value;
 }
