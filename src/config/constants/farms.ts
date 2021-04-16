@@ -52,6 +52,8 @@ const farms: FarmConfig[] = [
     token: tokens.busd,
     quoteToken: tokens.gme,
   },
+  
+  // caves (should add token address with lptoken address when add pool)
   // {
   //   pid: 5,
   //   lpSymbol: 'BUSD-GME LP',
