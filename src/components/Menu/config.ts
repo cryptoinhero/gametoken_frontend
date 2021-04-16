@@ -26,6 +26,11 @@ const config: MenuEntry[] = [
     href: '/farms',
   },
   {
+    label: 'Caves',
+    icon: 'FarmIcon',
+    href: '/caves',
+  },
+  {
     label: 'Pools',
     icon: 'PoolIcon',
     href: '/pools',

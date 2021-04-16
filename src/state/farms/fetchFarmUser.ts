@@ -9,10 +9,9 @@ export const fetchFarmUserAllowances = async (account: string) => {
   const masterChefAddress = getMasterChefAddress()
 
   const calls = farmsConfig.map((farm) => {
-    const lpContractAddress = getAddress(farm.lpAddresses)
+    const lpContractAddress = farm.isTokenOnly ? getAddress(farm.token.address) : getAddress(farm.lpAddresses)
     return { address: lpContractAddress, name: 'allowance', params: [account, masterChefAddress] }
   })
-
   const rawLpAllowances = await multicall(erc20ABI, calls)
   const parsedLpAllowances = rawLpAllowances.map((lpBalance) => {
     return new BigNumber(lpBalance).toJSON()
@@ -22,7 +21,7 @@ export const fetchFarmUserAllowances = async (account: string) => {
 
 export const fetchFarmUserTokenBalances = async (account: string) => {
   const calls = farmsConfig.map((farm) => {
-    const lpContractAddress = getAddress(farm.lpAddresses)
+    const lpContractAddress = farm.isTokenOnly ? getAddress(farm.token.address) : getAddress(farm.lpAddresses)
     return {
       address: lpContractAddress,
       name: 'balanceOf',

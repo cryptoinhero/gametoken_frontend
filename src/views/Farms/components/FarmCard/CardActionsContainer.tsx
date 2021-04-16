@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import styled from 'styled-components'
 import { provider as ProviderType } from 'web3-core'
 import { getAddress } from 'utils/addressHelpers'
@@ -33,11 +33,17 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
   const { pid, lpAddresses } = useFarmFromSymbol(farm.lpSymbol)
   const { allowance, tokenBalance, stakedBalance, earnings } = useFarmUser(pid)
   const lpAddress = getAddress(lpAddresses)
+  const tokenAddres = getAddress(farm.token.address)
   const lpName = farm.lpSymbol.toUpperCase()
   const isApproved = account && allowance && allowance.isGreaterThan(0)
   const web3 = useWeb3()
 
-  const lpContract = getBep20Contract(lpAddress, web3)
+  const lpContract = useMemo(() => {
+    if (farm.isTokenOnly) {
+      return getBep20Contract(tokenAddres, web3)
+    }
+    return getBep20Contract(lpAddress, web3)
+  }, [lpAddress, tokenAddres, farm, web3])
 
   const { onApprove } = useApprove(lpContract)
 

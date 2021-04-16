@@ -16,6 +16,7 @@ const pools: PoolConfig[] = [
     sortOrder: 1,
     isFinished: false,
   },
+  
 ]
 
 export default pools

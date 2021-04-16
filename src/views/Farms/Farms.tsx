@@ -111,8 +111,11 @@ const Header = styled.div`
     padding-right: 24px;
   }
 `
+export interface FarmsProps {
+  tokenMode?: boolean
+}
 
-const Farms: React.FC = () => {
+const Farms: React.FC<FarmsProps> = (farmsProps) => {
   const { path } = useRouteMatch()
   const { pathname } = useLocation()
   const TranslateString = useI18n()
@@ -123,6 +126,7 @@ const Farms: React.FC = () => {
   const { account } = useWeb3React()
   const [sortOption, setSortOption] = useState('hot')
   const prices = useGetApiPrices()
+  const { tokenMode } = farmsProps
 
   const dispatch = useDispatch()
   const { fastRefresh } = useRefresh()
@@ -135,8 +139,8 @@ const Farms: React.FC = () => {
   const [stakedOnly, setStakedOnly] = useState(false)
   const isActive = !pathname.includes('history')
 
-  const activeFarms = farmsLP.filter((farm) => farm.pid !== 0 && farm.multiplier !== '0X')
-  const inactiveFarms = farmsLP.filter((farm) => farm.pid !== 0 && farm.multiplier === '0X')
+  const activeFarms = farmsLP.filter((farm) => !!farm.isTokenOnly === !!tokenMode && farm.pid !== 0 && farm.multiplier !== '0X')
+  const inactiveFarms = farmsLP.filter((farm) => !!farm.isTokenOnly === !!tokenMode && farm.pid !== 0 && farm.multiplier === '0X')
 
   const stakedOnlyFarms = activeFarms.filter(
     (farm) => farm.userData && new BigNumber(farm.userData.stakedBalance).isGreaterThan(0),
@@ -266,7 +270,8 @@ const Farms: React.FC = () => {
   return (
     <Page>
       <Heading size="xl" color="text" style={{ textAlign: 'center', marginBottom: "10px" }}>
-        {TranslateString(999, 'Stake Liquidity Pool (LP) tokens to earn.')}
+        {!tokenMode ? TranslateString(999, 'Stake Liquidity Pool (LP) tokens to earn.') :
+                      TranslateString(999, 'Stake tokens to earn GME.')}
       </Heading>
       <ControlContainer>
         <ViewControls>
