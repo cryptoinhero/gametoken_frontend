@@ -105,7 +105,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, account }
     ? `$${farm.liquidity.toNumber().toLocaleString(undefined, { maximumFractionDigits: 0 })}`
     : '-'
 
-  const lpLabel = farm.lpSymbol && farm.lpSymbol.toUpperCase().replace('GAMETOKEN', '')
+  const lpLabel = farm.isTokenOnly ? farm.token.symbol : farm.lpSymbol && farm.lpSymbol.toUpperCase().replace('GAMETOKEN', '')
   const earnLabel = farm.dual ? farm.dual.earnLabel : 'GME'
 
   const farmAPY = farm.apy && farm.apy.toLocaleString('en-US', { maximumFractionDigits: 2 })

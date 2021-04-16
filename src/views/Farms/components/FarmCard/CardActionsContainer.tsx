@@ -34,7 +34,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
   const { allowance, tokenBalance, stakedBalance, earnings } = useFarmUser(pid)
   const lpAddress = getAddress(lpAddresses)
   const tokenAddres = getAddress(farm.token.address)
-  const lpName = farm.lpSymbol.toUpperCase()
+  const lpName = farm.isTokenOnly ? farm.token.symbol.toLowerCase() : farm.lpSymbol.toUpperCase()
   const isApproved = account && allowance && allowance.isGreaterThan(0)
   const web3 = useWeb3()
 
