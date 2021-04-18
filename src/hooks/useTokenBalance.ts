@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
-import { getBep20Contract, getCakeContract } from 'utils/contractHelpers'
+import { getBep20Contract, getCakeContract, getMasterchefContract } from 'utils/contractHelpers'
 import useWeb3 from './useWeb3'
 import useRefresh from './useRefresh'
 
@@ -42,6 +42,23 @@ export const useTotalSupply = () => {
 
   return totalSupply
 }
+
+export const useGmePerBlock = () => {
+  const [reward, setReward] = useState<BigNumber>()
+
+  useEffect(() => {
+    async function fetchGmePerBlock() {
+      const masterchefContract = getMasterchefContract()
+      const gmePerBlock = await masterchefContract.methods.gmePerBlock().call()
+      setReward(new BigNumber(gmePerBlock))
+    }
+
+    fetchGmePerBlock()
+  })
+
+  return reward
+}
+
 
 export const useBurnedBalance = (tokenAddress: string) => {
   const [balance, setBalance] = useState(new BigNumber(0))

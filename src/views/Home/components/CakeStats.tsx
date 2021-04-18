@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, CardBody, Heading, Text } from '@gametoken/uikit'
 import styled from 'styled-components'
 import { getBalanceNumber } from 'utils/formatBalance'
-import { useTotalSupply, useBurnedBalance } from 'hooks/useTokenBalance'
+import { useTotalSupply, useBurnedBalance, useGmePerBlock } from 'hooks/useTokenBalance'
 import useI18n from 'hooks/useI18n'
 import { getCakeAddress } from 'utils/addressHelpers'
 import CardValue from './CardValue'
@@ -25,6 +25,8 @@ const CakeStats = () => {
   const totalSupply = useTotalSupply()
   const burnedBalance = getBalanceNumber(useBurnedBalance(getCakeAddress()))
   const cakeSupply = totalSupply ? getBalanceNumber(totalSupply) - burnedBalance : 0
+  const gmePerBlock = useGmePerBlock()
+  const rewardPerBlock = gmePerBlock ? getBalanceNumber(gmePerBlock) : 0
 
   return (
     <StyledCakeStats>
@@ -42,7 +44,7 @@ const CakeStats = () => {
         </Row>
         <Row>
           <Text fontSize="14px">{TranslateString(540, 'New GME/block')}</Text>
-          <CardValue fontSize="14px" decimals={0} value={1} />
+          <CardValue fontSize="14px" decimals={0} value={rewardPerBlock} />
         </Row>
       </CardBody>
     </StyledCakeStats>
