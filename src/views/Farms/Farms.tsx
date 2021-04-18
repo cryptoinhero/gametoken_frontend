@@ -179,7 +179,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
 
         let quoteTokenPriceUsd = prices[farm.quoteToken.symbol.toLowerCase()]
         if(farm.quoteToken.symbol === tokens.gme.symbol) quoteTokenPriceUsd = cakePrice.toNumber();
-        const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(quoteTokenPriceUsd)
+        const totalLiquidity = farm.isTokenOnly ? new BigNumber(farm.tokenAmount) : new BigNumber(farm.lpTotalInQuoteToken).times(quoteTokenPriceUsd)
         const apy = isActive ? getFarmApy(farm.poolWeight, cakePrice, totalLiquidity) : 0
 
         return { ...farm, apy, liquidity: totalLiquidity }
