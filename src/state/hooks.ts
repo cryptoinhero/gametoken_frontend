@@ -238,7 +238,7 @@ export const useTotalValue = (): BigNumber => {
   let value = new BigNumber(0);
   for (let i = 0; i < farms.length; i++) {
     const farm = farms[i]
-    if (farm.lpTotalInQuoteToken) {
+    if (farm.lpTotalInQuoteToken && !farm.isTokenOnly) {
       let val;
       if (farm.quoteToken === tokens.wbnb) {
         val = (bnbPrice.times(farm.lpTotalInQuoteToken));
