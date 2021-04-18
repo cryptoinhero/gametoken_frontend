@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import styled, { keyframes } from 'styled-components'
 import { Flex, Text, Skeleton } from '@gametoken/uikit'
 import { communityFarms } from 'config/constants'
 import { Farm } from 'state/types'
 import { provider as ProviderType } from 'web3-core'
+import { getAddress } from 'utils/addressHelpers'
 import useI18n from 'hooks/useI18n'
 import ExpandableSectionButton from 'components/ExpandableSectionButton'
 import { BASE_ADD_LIQUIDITY_URL, BASE_EXCHANGE_URL } from 'config'
@@ -118,7 +119,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, account }
     `${BASE_EXCHANGE_URL}/#/swap?outputCurrency=${farm.token.address[process.env.REACT_APP_CHAIN_ID]}`
     : `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`
 
-  const lpAddress = farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
+  const lpAddress = getAddress(farm.lpAddresses)
 
   return (
     <FCard>
@@ -160,8 +161,8 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, account }
           removed={removed}
           bscScanAddress={
             farm.isTokenOnly
-            ? `https://bscscan.com/address/${farm.token.address[process.env.REACT_APP_CHAIN_ID]}`
-            : `https://bscscan.com/token/${farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]}`
+            ? `https://bscscan.com/address/${getAddress(farm.token.address)}`
+            : `https://bscscan.com/token/${lpAddress}`
           }
           infoAddress={`https://pancakeswap.info/pair/${lpAddress}`}
           totalValueFormatted={totalValueFormatted}

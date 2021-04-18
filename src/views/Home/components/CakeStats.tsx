@@ -44,7 +44,7 @@ const CakeStats = () => {
         </Row>
         <Row>
           <Text fontSize="14px">{TranslateString(540, 'New GME/block')}</Text>
-          <CardValue fontSize="14px" decimals={0} value={rewardPerBlock} />
+          <CardValue fontSize="14px" decimals={2} value={rewardPerBlock} />
         </Row>
       </CardBody>
     </StyledCakeStats>
