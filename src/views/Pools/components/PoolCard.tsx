@@ -18,7 +18,7 @@ import Balance from 'components/Balance'
 import { PoolCategory } from 'config/constants/types'
 import tokens from 'config/constants/tokens'
 import { Pool } from 'state/types'
-import { useGetApiPrice } from 'state/hooks'
+import { useGetApiPrice, usePriceCakeBusd } from 'state/hooks'
 import DepositModal from './DepositModal'
 import WithdrawModal from './WithdrawModal'
 import CompoundModal from './CompoundModal'
@@ -58,8 +58,11 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const { onReward } = useSousHarvest(sousId, isBnbPool)
 
   // APY
-  const rewardTokenPrice = useGetApiPrice(earningToken.symbol)
-  const stakingTokenPrice = useGetApiPrice(stakingToken.symbol)
+  const gmePriceUSD = usePriceCakeBusd()
+  let rewardTokenPrice = useGetApiPrice(earningToken.symbol)
+  if(earningToken.symbol === tokens.gme.symbol) rewardTokenPrice = gmePriceUSD.toNumber()
+  let stakingTokenPrice = useGetApiPrice(stakingToken.symbol)
+  if(stakingToken.symbol === tokens.gme.symbol) stakingTokenPrice = gmePriceUSD.toNumber()
   const apy = getPoolApy(
     stakingTokenPrice,
     rewardTokenPrice,
