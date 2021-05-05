@@ -1,0 +1,26 @@
+<svg version="1.2" baseProfile="tiny-ps" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 186 171" width="186" height="171">
+	<title>gme-ada-svg</title>
+	<style>
+		tspan { white-space:pre }
+		.shp0 { fill: #f5f3f3 } 
+		.shp1 { fill: #2f3030 } 
+		.shp2 { fill: #100c18 } 
+		.shp3 { fill: #828384 } 
+		.shp4 { fill: #343535 } 
+		.shp5 { mix-blend-mode: multiply;fill: #191326 } 
+	</style>
+	<g id="eth">
+		<g id="Folder 1">
+			<path id="Layer" class="shp0" d="M92.5 173C44.67 173 6 134.33 6 86.5C6 38.67 44.67 0 92.5 0C140.33 0 179 38.67 179 86.5C179 134.33 140.33 173 92.5 173Z" />
+			<path id="Layer" class="shp1" d="M92.5 117.09L92.5 147.22L129.58 95.15L92.5 117.09Z" />
+			<path id="Layer" class="shp2" d="M92.5 70.6L92.5 109.38L129.58 87.44L92.5 70.6Z" />
+			<path id="Layer" class="shp1" d="M92.5 25.95L92.5 70.6L129.58 87.44L92.5 25.95Z" />
+			<path id="Layer" class="shp3" d="M92.5 117.09L92.5 147.22L55.42 95.15L92.5 117.09Z" />
+			<path id="Layer" class="shp4" d="M92.5 70.6L92.5 109.38L55.42 87.44L92.5 70.6Z" />
+			<path id="Layer" class="shp3" d="M92.5 25.95L92.5 70.6L55.42 87.44L92.5 25.95Z" />
+		</g>
+		<g id="Layer" style="opacity: 0.102">
+			<path id="Layer" fill-rule="evenodd" class="shp5" d="M6 86.5C6 38.73 44.73 0 92.5 0C140.27 0 179 38.73 179 86.5C179 134.27 140.27 173 92.5 173C44.73 173 6 134.27 6 86.5ZM92.5 164.05C135.33 164.05 170.05 129.33 170.05 86.5C170.05 43.67 135.33 8.95 92.5 8.95C49.67 8.95 14.95 43.67 14.95 86.5C14.95 129.33 49.67 164.05 92.5 164.05Z" />
+		</g>
+	</g>
+</svg>

@@ -25,4 +25,5 @@ const DualTag = (props) => (
   </Tag>
 )
 
+
 export { CoreTag, CommunityTag, BinanceTag, DualTag }

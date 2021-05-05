@@ -53,14 +53,14 @@ const App: React.FC = () => {
       <GlobalStyle />
       <Menu>
         <SuspenseWithChunkError fallback={<PageLoader />}>
-          <Switch>
+        <Switch>
             <Route path="/" exact>
               <Home />
             </Route>
             <Route path="/farms">
               <Farms />
             </Route>
-            <Route path="/caves">
+            <Route path="/keys">
               <Farms tokenMode/>
             </Route>
             <Route path="/pools">

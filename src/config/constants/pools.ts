@@ -8,11 +8,11 @@ const pools: PoolConfig[] = [
     earningToken: tokens.gme,
     contractAddress: { // masterChef contract
       97: '',
-      56: '0xcEf38F90CbB43725fa3bdbcD2F1fA141c0fc0cd3',
+      56: '0x06F4F64a9d13cF07Ecd2Ec20aFaF7Dd0a238B599',
     },
     poolCategory: PoolCategory.CORE,
     harvest: true,
-    tokenPerBlock: '10',
+    tokenPerBlock: '0.075',
     sortOrder: 1,
     isFinished: false,
   },

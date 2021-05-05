@@ -16,6 +16,7 @@ import { getBalanceNumber } from 'utils/formatBalance'
 import { getFarmApy } from 'utils/apy'
 import { orderBy } from 'lodash'
 import tokens from 'config/constants/tokens'
+import { useGmePerBlock } from 'hooks/useTokenBalance'
 
 import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
 import Table from './components/FarmTable/FarmTable'
@@ -26,6 +27,7 @@ import ToggleView from './components/ToggleView/ToggleView'
 import Divider from './components/Divider'
 import { DesktopColumnSchema, ViewMode } from './components/types'
 import Select, { OptionProps } from './components/Select/Select'
+
 
 const ControlContainer = styled.div`
   display: flex;
@@ -127,6 +129,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
   const { account } = useWeb3React()
   const [sortOption, setSortOption] = useState('hot')
   const prices = useGetApiPrices()
+  const gmePerBlock = useGmePerBlock();
   const { tokenMode } = farmsProps
 
   const dispatch = useDispatch()
@@ -150,7 +153,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
   const stakedInactiveFarms = inactiveFarms.filter(
     (farm) => farm.userData && new BigNumber(farm.userData.stakedBalance).isGreaterThan(0),
   )
-  
+
   const sortFarms = (farms: FarmWithStakedValue[]): FarmWithStakedValue[] => {
     switch (sortOption) {
       case 'apr':
@@ -182,7 +185,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
         let tokenPriceUsd = prices[farm.token.symbol.toLowerCase()]
         if(farm.token.symbol === tokens.gme.symbol) tokenPriceUsd = cakePrice.toNumber();
         const totalLiquidity = farm.isTokenOnly ? new BigNumber(farm.tokenAmount).times(tokenPriceUsd) : new BigNumber(farm.lpTotalInQuoteToken).times(quoteTokenPriceUsd)
-        const apy = isActive ? getFarmApy(farm.poolWeight, cakePrice, totalLiquidity) : 0
+        const apy = isActive ? getFarmApy(farm.poolWeight, cakePrice, totalLiquidity, new BigNumber(getBalanceNumber(gmePerBlock, 18))) : 0
 
         return { ...farm, apy, liquidity: totalLiquidity }
       })
@@ -195,7 +198,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
       }
       return farmsToDisplayWithAPY
     },
-    [cakePrice, prices, query, isActive],
+    [cakePrice, prices, query, isActive, gmePerBlock],
   )
 
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {

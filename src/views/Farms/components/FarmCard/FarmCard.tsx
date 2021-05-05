@@ -1,11 +1,10 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import styled, { keyframes } from 'styled-components'
 import { Flex, Text, Skeleton } from '@gametoken/uikit'
 import { communityFarms } from 'config/constants'
 import { Farm } from 'state/types'
 import { provider as ProviderType } from 'web3-core'
-import { getAddress } from 'utils/addressHelpers'
 import useI18n from 'hooks/useI18n'
 import ExpandableSectionButton from 'components/ExpandableSectionButton'
 import { BASE_ADD_LIQUIDITY_URL, BASE_EXCHANGE_URL } from 'config'
@@ -18,6 +17,7 @@ import ApyButton from './ApyButton'
 export interface FarmWithStakedValue extends Farm {
   apy?: number
   liquidity?: BigNumber
+  
 }
 
 const RainbowLight = keyframes`
@@ -108,6 +108,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, account }
 
   const lpLabel = farm.isTokenOnly ? farm.token.symbol : farm.lpSymbol && farm.lpSymbol.toUpperCase().replace('GAMETOKEN', '')
   const earnLabel = farm.dual ? farm.dual.earnLabel : 'GME'
+  const deposit = farm.depositFee
 
   const farmAPY = farm.apy && farm.apy.toLocaleString('en-US', { maximumFractionDigits: 2 })
 
@@ -119,7 +120,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, account }
     `${BASE_EXCHANGE_URL}/#/swap?outputCurrency=${farm.token.address[process.env.REACT_APP_CHAIN_ID]}`
     : `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`
 
-  const lpAddress = getAddress(farm.lpAddresses)
+  const lpAddress = farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
 
   return (
     <FCard>
@@ -128,6 +129,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, account }
         lpLabel={lpLabel}
         multiplier={farm.multiplier}
         isCommunityFarm={isCommunityFarm}
+        depositFee={farm.depositFee}
         farmImage={farmImage}
         tokenSymbol={farm.token.symbol}
       />
@@ -150,6 +152,12 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, account }
         <Text>{TranslateString(318, 'Earn')}:</Text>
         <Text bold>{earnLabel}</Text>
       </Flex>
+      <Flex justifyContent="space-between">
+        <Text>{TranslateString(318, 'Deposit Fee')}:</Text>
+        <Text>
+          {farm.depositFee / 100}%
+        </Text>
+      </Flex>
       <CardActionsContainer farm={farm} account={account} addLiquidityUrl={addLiquidityUrl} />
       <Divider />
       <ExpandableSectionButton
@@ -161,8 +169,8 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, account }
           removed={removed}
           bscScanAddress={
             farm.isTokenOnly
-            ? `https://bscscan.com/address/${getAddress(farm.token.address)}`
-            : `https://bscscan.com/token/${lpAddress}`
+            ? `https://bscscan.com/address/${farm.token.address[process.env.REACT_APP_CHAIN_ID]}`
+            : `https://bscscan.com/token/${farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]}`
           }
           infoAddress={`https://pancakeswap.info/pair/${lpAddress}`}
           totalValueFormatted={totalValueFormatted}

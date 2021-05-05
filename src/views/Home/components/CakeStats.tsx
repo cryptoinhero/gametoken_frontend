@@ -5,7 +5,9 @@ import { getBalanceNumber } from 'utils/formatBalance'
 import { useTotalSupply, useBurnedBalance, useGmePerBlock } from 'hooks/useTokenBalance'
 import useI18n from 'hooks/useI18n'
 import { getCakeAddress } from 'utils/addressHelpers'
+import { usePriceCakeBusd } from '../../../state/hooks'
 import CardValue from './CardValue'
+
 
 const StyledCakeStats = styled(Card)`
   margin-left: auto;
@@ -27,9 +29,12 @@ const CakeStats = () => {
   const cakeSupply = totalSupply ? getBalanceNumber(totalSupply) - burnedBalance : 0
   const gmePerBlock = useGmePerBlock()
   const rewardPerBlock = gmePerBlock ? getBalanceNumber(gmePerBlock) : 0
+  const gmePrice = usePriceCakeBusd().toNumber()
+  
+  const marketCap = gmePrice * cakeSupply
 
   return (
-    <StyledCakeStats>
+    <StyledCakeStats> 
       <CardBody>
         <Heading size="xl" mb="24px">
           {TranslateString(534, 'GME Stats')}
@@ -39,13 +44,17 @@ const CakeStats = () => {
           {cakeSupply && <CardValue fontSize="14px" value={cakeSupply} />}
         </Row>
         <Row>
+          <Text fontSize="14px">{TranslateString(536, 'MarketCap')}</Text>
+          <CardValue fontSize="14px" decimals={0} value={marketCap} />
+        </Row>
+        <Row>
           <Text fontSize="14px">{TranslateString(538, 'Total GME Burned')}</Text>
           <CardValue fontSize="14px" decimals={0} value={burnedBalance} />
         </Row>
         <Row>
           <Text fontSize="14px">{TranslateString(540, 'New GME/block')}</Text>
-          <CardValue fontSize="14px" decimals={2} value={rewardPerBlock} />
-        </Row>
+          <CardValue fontSize="14px" decimals={3} value={rewardPerBlock} />
+        </Row> 
       </CardBody>
     </StyledCakeStats>
   )

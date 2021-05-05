@@ -7,6 +7,8 @@ import useI18n from 'hooks/useI18n'
 import BigNumber from 'bignumber.js'
 import { getFarmApy } from 'utils/apy'
 import { useFarms, usePriceCakeBusd, useGetApiPrices } from 'state/hooks'
+import { useGmePerBlock } from 'hooks/useTokenBalance'
+import { getBalanceNumber } from 'utils/formatBalance'
 
 const StyledFarmStakingCard = styled(Card)`
   margin-left: auto;
@@ -26,6 +28,7 @@ const EarnAPYCard = () => {
   const farmsLP = useFarms()
   const prices = useGetApiPrices()
   const cakePrice = usePriceCakeBusd()
+  const gmePerBlock = useGmePerBlock()
 
   const highestApy = useMemo(() => {
     const apys = farmsLP
@@ -35,7 +38,7 @@ const EarnAPYCard = () => {
         if (farm.lpTotalInQuoteToken && prices) {
           const quoteTokenPriceUsd = prices[farm.quoteToken.symbol.toLowerCase()]
           const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(quoteTokenPriceUsd)
-          return getFarmApy(farm.poolWeight, cakePrice, totalLiquidity)
+          return getFarmApy(farm.poolWeight, cakePrice, totalLiquidity, new BigNumber(getBalanceNumber(gmePerBlock, 18)))
         }
         return null
       })
@@ -45,7 +48,7 @@ const EarnAPYCard = () => {
   }, [cakePrice, farmsLP, prices])
 
   return (
-    <StyledFarmStakingCard>
+    <StyledFarmStakingCard> 
       <CardBody>
         <Heading color="contrast" size="lg">
           Earn up to

@@ -19,6 +19,7 @@ import { PoolCategory } from 'config/constants/types'
 import tokens from 'config/constants/tokens'
 import { Pool } from 'state/types'
 import { useGetApiPrice, usePriceCakeBusd } from 'state/hooks'
+import { useGmePerBlock } from 'hooks/useTokenBalance'
 import DepositModal from './DepositModal'
 import WithdrawModal from './WithdrawModal'
 import CompoundModal from './CompoundModal'
@@ -56,9 +57,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const { onStake } = useSousStake(sousId, isBnbPool)
   const { onUnstake } = useSousUnstake(sousId)
   const { onReward } = useSousHarvest(sousId, isBnbPool)
+  const gmePerBlock = useGmePerBlock() || new BigNumber(0)
+  const gmePriceUSD = usePriceCakeBusd()
 
   // APY
-  const gmePriceUSD = usePriceCakeBusd()
   let rewardTokenPrice = useGetApiPrice(earningToken.symbol)
   if(earningToken.symbol === tokens.gme.symbol) rewardTokenPrice = gmePriceUSD.toNumber()
   let stakingTokenPrice = useGetApiPrice(stakingToken.symbol)
@@ -67,7 +69,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     stakingTokenPrice,
     rewardTokenPrice,
     getBalanceNumber(pool.totalStaked, stakingToken.decimals),
-    parseFloat(pool.tokenPerBlock),
+    getBalanceNumber(gmePerBlock.div(4), 18),
   )
 
   const [requestedApproval, setRequestedApproval] = useState(false)

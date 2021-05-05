@@ -20,7 +20,7 @@ const TweetCard = () => {
           noHeader
           noBorders
           noFooter
-          theme={isDark ? "dark": ""}
+          theme={isDark ? "dark": "light"}
         />
       </CardBody>
     </StyledTweetCard>

@@ -12,11 +12,11 @@ const config: MenuEntry[] = [
     items: [
       {
         label: 'Exchange',
-        href: 'http://swap.kizunacoin.net',
+        href: 'http://swap.gametoken.finance',
       },
       {
         label: 'Liquidity',
-        href: 'http://swap.kizunacoin.net/#/pool',
+        href: 'http://swap.gametoken.finance/#/pool',
       },
     ],
   },
@@ -26,9 +26,9 @@ const config: MenuEntry[] = [
     href: '/farms',
   },
   {
-    label: 'Caves',
-    icon: 'FarmIcon',
-    href: '/caves',
+    label: 'Keys',
+    icon: 'PoolIcon',
+    href: '/keys',
   },
   {
     label: 'Pools',
@@ -38,7 +38,7 @@ const config: MenuEntry[] = [
   {
     label: 'GameMarket',
     icon: 'IfoIcon',
-    href: 'https://market.gametoken.finance',
+    href: 'https://gametoken.store',
   },
   {
     label: 'GameDollar',
@@ -65,7 +65,11 @@ const config: MenuEntry[] = [
       },
       {
         label: 'Blog',
-        href: 'https://medium.com/@GameToken',
+        href: 'https://medium.com/@GameTokenFi',
+      },
+      {
+        label: 'Audit',
+        href: 'https://github.com/GameTokenFinance/Contracts/blob/main/audit/GameToken.pdf',
       },
     ],
   },

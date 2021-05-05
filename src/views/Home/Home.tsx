@@ -98,6 +98,7 @@ const Home: React.FC = () => {
           <TotalValueLockedCard />
         </Cards>
       </div>
+
     </Page>
   )
 }

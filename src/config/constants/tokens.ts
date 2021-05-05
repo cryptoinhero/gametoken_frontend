@@ -6,12 +6,33 @@ const tokens = {
   gme: {
     symbol: 'GME',
     address: {
-      56: '0x171BB6a358B7E769B1eB3E7b2Aab779423CBeee0',
+      56: '0xA2e62D43B5340E269Cad0A06D4813957BC56cA31',
       97: '',
     },
     decimals: 18,
-    projectLink: 'https://abc.kizunacoin.net/',
+    projectLink: 'https://gametoken.finance/',
   },
+
+  mdo: {
+    symbol: 'MDO',
+    address: {
+      56: '0x35e869B7456462b81cdB5e6e42434bD27f3F788c',
+      97: '',
+    },
+    decimals: 18,
+    projectLink: 'https://https://midasdollar.fi/',
+  },
+  
+  sbdo: {
+    symbol: 'SBDO',
+    address: {
+      56: '0x0d9319565be7f53CeFE84Ad201Be3f40feAE2740',
+      97: '',
+    },
+    decimals: 18,
+    projectLink: 'https://bdollar.fi/',
+  },
+  
   cake: {
     symbol: 'CAKE',
     address: {
@@ -21,123 +42,8 @@ const tokens = {
     decimals: 18,
     projectLink: 'https://pancakeswap.finance/',
   },
-  txl: {
-    symbol: 'TXL',
-    address: {
-      56: '0x1ffd0b47127fdd4097e54521c9e2c7f0d66aafc5',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://tixl.org/',
-  },
-  cos: {
-    symbol: 'COS',
-    address: {
-      56: '0x96Dd399F9c3AFda1F194182F71600F1B65946501',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://www.contentos.io/',
-  },
-  bunny: {
-    symbol: 'BUNNY',
-    address: {
-      56: '0xc9849e6fdb743d08faee3e34dd2d1bc69ea11a51',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://pancakebunny.finance/',
-  },
-  alice: {
-    symbol: 'ALICE',
-    address: {
-      56: '0xac51066d7bec65dc4589368da368b212745d63e8',
-      97: '',
-    },
-    decimals: 6,
-    projectLink: 'https://www.myneighboralice.com/',
-  },
-  for: {
-    symbol: 'FOR',
-    address: {
-      56: '0x658A109C5900BC6d2357c87549B651670E5b0539',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://www.for.tube/home',
-  },
-  bux: {
-    symbol: 'BUX',
-    address: {
-      56: '0x211ffbe424b90e25a15531ca322adf1559779e45',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://getbux.com/bux-crypto/',
-  },
-  nuls: {
-    symbol: 'NULS',
-    address: {
-      56: '0x8cd6e29d3686d24d3c2018cee54621ea0f89313b',
-      97: '',
-    },
-    decimals: 8,
-    projectLink: 'https://www.nuls.io/',
-  },
-  belt: {
-    symbol: 'BELT',
-    address: {
-      56: '0xE0e514c71282b6f4e823703a39374Cf58dc3eA4f',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://beta.belt.fi/',
-  },
-  ramp: {
-    symbol: 'RAMP',
-    address: {
-      56: '0x8519ea49c997f50ceffa444d240fb655e89248aa',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://rampdefi.com/',
-  },
-  bfi: {
-    symbol: 'BFI',
-    address: {
-      56: '0x81859801b01764d4f0fa5e64729f5a6c3b91435b',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://bearn.fi/',
-  },
-  dexe: {
-    symbol: 'DEXE',
-    address: {
-      56: '0x039cb485212f996a9dbb85a9a75d898f94d38da6',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://dexe.network/',
-  },
-  bel: {
-    symbol: 'BEL',
-    address: {
-      56: '0x8443f091997f06a61670b735ed92734f5628692f',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://bella.fi/',
-  },
-  tpt: {
-    symbol: 'TPT',
-    address: {
-      56: '0xeca41281c24451168a37211f0bc2b8645af45092',
-      97: '',
-    },
-    decimals: 4,
-    projectLink: 'https://www.tokenpocket.pro/',
-  },
+
+
   watch: {
     symbol: 'WATCH',
     address: {
@@ -147,132 +53,8 @@ const tokens = {
     decimals: 18,
     projectLink: 'https://yieldwatch.net/',
   },
-  xmark: {
-    symbol: 'xMARK',
-    address: {
-      56: '0x26a5dfab467d4f58fb266648cae769503cec9580',
-      97: '',
-    },
-    decimals: 9,
-    projectLink: 'https://benchmarkprotocol.finance/',
-  },
-  bmxx: {
-    symbol: 'bMXX',
-    address: {
-      56: '0x4131b87f74415190425ccd873048c708f8005823',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://multiplier.finance/',
-  },
-  iotx: {
-    symbol: 'IOTX',
-    address: {
-      56: '0x9678e42cebeb63f23197d726b29b1cb20d0064e5',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://iotex.io/',
-  },
-  bor: {
-    symbol: 'BOR',
-    address: {
-      56: '0x92d7756c60dcfd4c689290e8a9f4d263b3b32241',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://www.boringdao.com/',
-  },
-  bopen: {
-    symbol: 'bOPEN',
-    address: {
-      56: '0xf35262a9d427f96d2437379ef090db986eae5d42',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://opendao.io/',
-  },
-  dodo: {
-    symbol: 'DODO',
-    address: {
-      56: '0x67ee3cb086f8a16f34bee3ca72fad36f7db929e2',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://dodoex.io/',
-  },
-  swingby: {
-    symbol: 'SWINGBY',
-    address: {
-      56: '0x71de20e0c4616e7fcbfdd3f875d568492cbe4739',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://swingby.network/',
-  },
-  bry: {
-    symbol: 'BRY',
-    address: {
-      56: '0xf859bf77cbe8699013d6dbc7c2b926aaf307f830',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://berrydata.co/',
-  },
-  zee: {
-    symbol: 'ZEE',
-    address: {
-      56: '0x44754455564474a89358b2c2265883df993b12f0',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://zeroswap.io/',
-  },
-  swgb: {
-    symbol: 'SWGb',
-    address: {
-      56: '0xe40255c5d7fa7ceec5120408c78c787cecb4cfdb',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://swirgepay.com/',
-  },
-  sfp: {
-    symbol: 'SFP',
-    address: {
-      56: '0xd41fdb03ba84762dd66a0af1a6c8540ff1ba5dfb',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://www.safepal.io/',
-  },
-  lina: {
-    symbol: 'LINA',
-    address: {
-      56: '0x762539b45a1dcce3d36d080f74d1aed37844b878',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://linear.finance/',
-  },
-  lit: {
-    symbol: 'LIT',
-    address: {
-      56: '0xb59490ab09a0f526cc7305822ac65f2ab12f9723',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://www.litentry.com/',
-  },
-  hget: {
-    symbol: 'HGET',
-    address: {
-      56: '0xc7d8d35eba58a0935ff2d5a33df105dd9f071731',
-      97: '',
-    },
-    decimals: 6,
-    projectLink: 'https://www.hedget.com/',
-  },
+
+ 
   bdo: {
     symbol: 'BDO',
     address: {
@@ -582,7 +364,7 @@ const tokens = {
   syrup: {
     symbol: 'SYRUP',
     address: {
-      56: '0x171BB6a358B7E769B1eB3E7b2Aab779423CBeee0',
+      56: '0xA2e62D43B5340E269Cad0A06D4813957BC56cA31',
       97: '',
     },
     decimals: 18,

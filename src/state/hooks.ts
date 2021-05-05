@@ -204,14 +204,14 @@ export const useGetApiPrice = (token: string) => {
 }
 
 export const usePriceBnbBusd = (): BigNumber => {
-  const pid = 1 // GME-BNB LP
+  const pid = 3 // GME-BNB LP
   const gmePriceUSD = usePriceCakeBusd();
   const farm = useFarmFromPid(pid)
   return farm.tokenPriceVsQuote ? gmePriceUSD.div(farm.tokenPriceVsQuote) : ZERO
 }
 
 export const usePriceCakeBusd = (): BigNumber => {
-  const pid = 4 // BUSD-GME LP
+  const pid = 1 // BUSD-GME LP
   // const cakeBnbFarm = useFarmFromPid(1)
   // const bnbBusdFarm = useFarmFromPid(2)
 
@@ -235,20 +235,34 @@ export const useTotalValue = (): BigNumber => {
   const farms = useFarms();
   const bnbPrice = usePriceBnbBusd();
   const gmePrice = usePriceCakeBusd();
+  const prices = useGetApiPrices()
+  
   let value = new BigNumber(0);
   for (let i = 0; i < farms.length; i++) {
     const farm = farms[i]
-    if (farm.lpTotalInQuoteToken && !farm.isTokenOnly) {
-      let val;
-      if (farm.quoteToken === tokens.wbnb) {
-        val = (bnbPrice.times(farm.lpTotalInQuoteToken));
-      }else if (farm.quoteToken === tokens.gme) {
-        val = (gmePrice.times(farm.lpTotalInQuoteToken));
-      }else{
-        val = (farm.lpTotalInQuoteToken);
-      }
-      value = value.plus(val);
+    if (farm.lpTotalInQuoteToken) {
+      let quoteTokenPriceUsd = prices[farm.quoteToken.symbol.toLowerCase()]
+      if(farm.quoteToken === tokens.gme) quoteTokenPriceUsd = gmePrice.toNumber();
+      if (!quoteTokenPriceUsd) quoteTokenPriceUsd = 0
+
+      let tokenPriceUsd = prices[farm.token.symbol.toLowerCase()]
+      if(farm.token === tokens.gme) tokenPriceUsd = gmePrice.toNumber();
+      if(!tokenPriceUsd) tokenPriceUsd = 0
+        
+      const totalLiquidity = farm.isTokenOnly ? new BigNumber(farm.tokenAmount).times(tokenPriceUsd) : new BigNumber(farm.lpTotalInQuoteToken).times(quoteTokenPriceUsd)
+      value = value.plus(totalLiquidity);
     }
+    // if (farm.lpTotalInQuoteToken && !farm.isTokenOnly) {
+    //   let val;
+    //   if (farm.quoteToken === tokens.wbnb) {
+    //     val = (bnbPrice.times(farm.lpTotalInQuoteToken));
+    //   }else if (farm.quoteToken === tokens.gme) {
+    //     val = (gmePrice.times(farm.lpTotalInQuoteToken));
+    //   }else{
+    //     val = (farm.lpTotalInQuoteToken);
+    //   }
+    //   value = value.plus(val);
+    // }
   }
   return value;
 }
