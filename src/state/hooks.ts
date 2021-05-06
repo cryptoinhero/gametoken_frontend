@@ -6,6 +6,7 @@ import { Toast, toastTypes } from '@gametoken/uikit'
 import { useSelector, useDispatch } from 'react-redux'
 import { Team } from 'config/constants/types'
 import { getWeb3NoAccount } from 'utils/web3'
+import { getBalanceNumber } from 'utils/formatBalance'
 import useRefresh from 'hooks/useRefresh'
 import tokens from 'config/constants/tokens';
 import {
@@ -233,7 +234,6 @@ export const useInitialBlock = () => {
 
 export const useTotalValue = (): BigNumber => {
   const farms = useFarms();
-  const bnbPrice = usePriceBnbBusd();
   const gmePrice = usePriceCakeBusd();
   const prices = useGetApiPrices()
   
@@ -264,5 +264,22 @@ export const useTotalValue = (): BigNumber => {
     //   value = value.plus(val);
     // }
   }
+
+  const { account } = useWeb3React()
+  const pools = usePools(account)
+  const { currentBlock } = useBlock()
+
+  for(let i = 0; i < pools.length; i++) {
+    const pool = pools[i]
+    if(pool.totalStaked || pool.isFinished || currentBlock > pool.endBlock) {
+      let tokenPriceUsd = prices[pool.stakingToken.symbol.toLowerCase()]
+      if(pool.stakingToken === tokens.gme) tokenPriceUsd = gmePrice.toNumber();
+      if(!tokenPriceUsd) tokenPriceUsd = 0
+
+      const val = new BigNumber(getBalanceNumber(pool.totalStaked)).times(tokenPriceUsd)
+      value = value.plus(val)
+    }
+  }
+
   return value;
 }
