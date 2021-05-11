@@ -11,6 +11,7 @@ import EarnAPYCard from 'views/Home/components/EarnAPYCard'
 import EarnAssetCard from 'views/Home/components/EarnAssetCard'
 import WinCard from 'views/Home/components/WinCard'
 import TweetCard from './components/TweetCard'
+import ClaimtoV2 from './components/ClaimtoV2'
 
 const Hero = styled.div`
   align-items: center;
@@ -92,6 +93,9 @@ const Home: React.FC = () => {
         <Cards>
           <FarmStakingCard />
           <TweetCard />
+        </Cards>
+        <Cards>
+          <ClaimtoV2 />
         </Cards>
         <Cards>
           <CakeStats />

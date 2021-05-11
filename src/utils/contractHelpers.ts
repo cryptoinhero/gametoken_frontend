@@ -17,6 +17,7 @@ import {
   getMasterChefAddress,
   getPointCenterIfoAddress,
   getClaimRefundAddress,
+  getClaimV2Address,
 } from 'utils/addressHelpers'
 
 // ABI
@@ -35,6 +36,7 @@ import masterChef from 'config/abi/masterchef.json'
 import sousChef from 'config/abi/sousChef.json'
 import sousChefBnb from 'config/abi/sousChefBnb.json'
 import claimRefundAbi from 'config/abi/claimRefund.json'
+import claimV2Abi from 'config/abi/claimToV2.json'
 
 const getContract = (abi: any, address: string, web3?: Web3) => {
   const _web3 = web3 ?? web3NoAccount
@@ -84,4 +86,7 @@ export const getMasterchefContract = (web3?: Web3) => {
 }
 export const getClaimRefundContract = (web3?: Web3) => {
   return getContract(claimRefundAbi, getClaimRefundAddress(), web3)
+}
+export const getClaimV2Contract = (web3?: Web3) => {
+  return getContract(claimV2Abi, getClaimV2Address(), web3)
 }

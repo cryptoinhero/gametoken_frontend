@@ -140,3 +140,12 @@ export const soushHarvestBnb = async (sousChefContract, account) => {
       return tx.transactionHash
     })
 }
+
+export const claimTokenToV2 = async (claimTokenContract, account) => {
+  return claimTokenContract.methods
+    .claimV1toV2()
+    .send({ from: account})
+    .on('transactionHash', (tx) => {
+      return tx.transactionHash
+    })
+}
