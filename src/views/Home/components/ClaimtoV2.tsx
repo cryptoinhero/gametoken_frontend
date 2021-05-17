@@ -6,7 +6,7 @@ import useI18n from 'hooks/useI18n'
 import { getCakeAddress, getClaimV2Address } from 'utils/addressHelpers'
 import { useWeb3React } from '@web3-react/core'
 import UnlockButton from 'components/UnlockButton'
-import { useApprove } from 'hooks/useApprove'
+import { useClaimV2Approve } from 'hooks/useApprove'
 import useWeb3 from 'hooks/useWeb3'
 import useClaimToV2 from 'hooks/useClaim'
 import { getClaimV2Contract } from 'utils/contractHelpers'
@@ -56,9 +56,7 @@ const ClaimtoV2 = () => {
     }
   }, [account, gmeContract, fastRefresh])
 
-  const web3 = useWeb3()
-  const claimV2Contract = getClaimV2Contract(web3)
-  const { onApprove } = useApprove(claimV2Contract)
+  const { onApprove } = useClaimV2Approve()
   const handleApprove = useCallback(async () => {
     try {
       setRequestedApproval(true)

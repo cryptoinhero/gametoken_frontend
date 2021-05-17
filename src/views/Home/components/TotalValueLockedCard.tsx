@@ -14,7 +14,7 @@ const StyledTotalValueLockedCard = styled(Card)`
 
 const TotalValueLockedCard = () => {
   const TranslateString = useI18n()
-  const data = useGetStats()
+  // const data = useGetStats()
   const tvl = useTotalValue();
 
   return (
@@ -23,7 +23,7 @@ const TotalValueLockedCard = () => {
         <Heading size="lg" mb="24px">
           {TranslateString(762, 'Total Value Locked (TVL)')}
         </Heading>
-        {data ? (
+        {tvl ? (
           <>
             <Heading size="xl"><CardValue value={tvl.toNumber()} prefix="$" decimals={2}/></Heading>
             <Text color="textSubtle">{TranslateString(764, 'Across all LPs and Pools')}</Text>

@@ -196,7 +196,7 @@ const farms: FarmConfig[] = [
        56: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
     },
     token: tokens.cake,
-    quoteToken: tokens.busd,    
+    quoteToken: tokens.busd,
     isTokenOnly: true,
    },
 
@@ -220,7 +220,7 @@ const farms: FarmConfig[] = [
        56: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
     },
     token: tokens.wbnb,
-    quoteToken: tokens.busd,    
+    quoteToken: tokens.busd,
     isTokenOnly: true,
    },
 
@@ -331,13 +331,6 @@ const farms: FarmConfig[] = [
     quoteToken: tokens.busd,    
     isTokenOnly: true,
    },
-
-   
-   
-  
-
-
-   
    
 ]
 

@@ -45,6 +45,6 @@ export default {
   },
   claimV2: {
     97: '',
-    56: '0x06F4F64a9d13cF07Ecd2Ec20aFaF7Dd0a238B599'
+    56: '0x09524e585543fE94F2087Bce23e8422c5cEC4Fb5'
   }
 }

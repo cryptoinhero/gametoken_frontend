@@ -55,23 +55,23 @@ const LanguageContextProvider = ({ children }) => {
     }
   }, [])
 
-  useEffect(() => {
-    if (selectedLanguage) {
-      fetchTranslationsForSelectedLanguage(selectedLanguage)
-        .then((translationApiResponse) => {
-          if (translationApiResponse.data.length < 1) {
-            setTranslations([])
-          } else {
-            setTranslations(translationApiResponse.data)
-          }
-        })
-        .then(() => setTranslatedLanguage(selectedLanguage))
-        .catch((e) => {
-          setTranslations([])
-          console.error('Error while loading translations', e)
-        })
-    }
-  }, [selectedLanguage, setTranslations])
+  // useEffect(() => {
+  //   if (selectedLanguage) {
+  //     fetchTranslationsForSelectedLanguage(selectedLanguage)
+  //       .then((translationApiResponse) => {
+  //         if (translationApiResponse.data.length < 1) {
+  //           setTranslations([])
+  //         } else {
+  //           setTranslations(translationApiResponse.data)
+  //         }
+  //       })
+  //       .then(() => setTranslatedLanguage(selectedLanguage))
+  //       .catch((e) => {
+  //         setTranslations([])
+  //         console.error('Error while loading translations', e)
+  //       })
+  //   }
+  // }, [selectedLanguage, setTranslations])
 
   const handleLanguageSelect = (langObject: LangType) => {
     setSelectedLanguage(langObject)
