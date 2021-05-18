@@ -212,12 +212,7 @@ export const usePriceBnbBusd = (): BigNumber => {
 }
 
 export const usePriceCakeBusd = (): BigNumber => {
-  const pid = 1 // BUSD-GME LP
-  // const cakeBnbFarm = useFarmFromPid(1)
-  // const bnbBusdFarm = useFarmFromPid(2)
-
-  // const bnbBusdPrice = bnbBusdFarm.tokenPriceVsQuote ? new BigNumber(1).div(bnbBusdFarm.tokenPriceVsQuote) : ZERO
-  // const cakeBusdPrice = cakeBnbFarm.tokenPriceVsQuote ? bnbBusdPrice.times(cakeBnbFarm.tokenPriceVsQuote) : ZERO
+  const pid = 1 // GME-BUSD LP
   const gmeBusdFarm = useFarmFromPid(pid);
   const cakeBusdPrice = gmeBusdFarm.tokenPriceVsQuote ?  new BigNumber(1).div(gmeBusdFarm.tokenPriceVsQuote) : ZERO
   return cakeBusdPrice
@@ -234,35 +229,48 @@ export const useInitialBlock = () => {
 
 export const useTotalValue = (): BigNumber => {
   const farms = useFarms();
-  const gmePrice = usePriceCakeBusd();
-  const prices = useGetApiPrices()
+  const gmePrice = usePriceCakeBusd()
+  const bnbPrice = usePriceBnbBusd()
+  // const prices = useGetApiPrices()
   
   let value = new BigNumber(0);
   for (let i = 0; i < farms.length; i++) {
     const farm = farms[i]
-    if (farm.lpTotalInQuoteToken) {
-      let quoteTokenPriceUsd = prices[farm.quoteToken.symbol.toLowerCase()]
-      if(farm.quoteToken === tokens.gme) quoteTokenPriceUsd = gmePrice.toNumber();
-      if (!quoteTokenPriceUsd) quoteTokenPriceUsd = 0
+    // if (farm.lpTotalInQuoteToken) {
+    //   let quoteTokenPriceUsd = prices[farm.quoteToken.symbol.toLowerCase()]
+    //   if(farm.quoteToken === tokens.gme) quoteTokenPriceUsd = gmePrice.toNumber();
+    //   if (!quoteTokenPriceUsd) quoteTokenPriceUsd = 0
 
-      let tokenPriceUsd = prices[farm.token.symbol.toLowerCase()]
-      if(farm.token === tokens.gme) tokenPriceUsd = gmePrice.toNumber();
-      if(!tokenPriceUsd) tokenPriceUsd = 0
+    //   let tokenPriceUsd = prices[farm.token.symbol.toLowerCase()]
+    //   if(farm.token === tokens.gme) tokenPriceUsd = gmePrice.toNumber();
+    //   if(!tokenPriceUsd) tokenPriceUsd = 0
         
-      const totalLiquidity = farm.isTokenOnly ? new BigNumber(farm.tokenAmount).times(tokenPriceUsd) : new BigNumber(farm.lpTotalInQuoteToken).times(quoteTokenPriceUsd)
-      value = value.plus(totalLiquidity);
-    }
-    // if (farm.lpTotalInQuoteToken && !farm.isTokenOnly) {
-    //   let val;
-    //   if (farm.quoteToken === tokens.wbnb) {
-    //     val = (bnbPrice.times(farm.lpTotalInQuoteToken));
-    //   }else if (farm.quoteToken === tokens.gme) {
-    //     val = (gmePrice.times(farm.lpTotalInQuoteToken));
-    //   }else{
-    //     val = (farm.lpTotalInQuoteToken);
-    //   }
-    //   value = value.plus(val);
+    //   const totalLiquidity = farm.isTokenOnly ? new BigNumber(farm.tokenAmount).times(tokenPriceUsd) : new BigNumber(farm.lpTotalInQuoteToken).times(quoteTokenPriceUsd)
+    //   value = value.plus(totalLiquidity);
     // }
+    if (farm.lpTotalInQuoteToken) {
+      if(!farm.isTokenOnly) {
+        let val;
+        if (farm.quoteToken === tokens.wbnb) {
+          val = (bnbPrice.times(farm.lpTotalInQuoteToken));
+        }else if (farm.quoteToken === tokens.gme) {
+          val = (gmePrice.times(farm.lpTotalInQuoteToken));
+        }else{
+          val = (farm.lpTotalInQuoteToken);
+        }
+        value = value.plus(val);
+      } else {
+        let val;
+        if (farm.token === tokens.wbnb) {
+          val = (bnbPrice.times(farm.tokenAmount));
+        }else if (farm.token === tokens.gme) {
+          val = (gmePrice.times(farm.tokenAmount));
+        }else{
+          val = (farm.tokenAmount);
+        }
+        value = value.plus(val);
+      }
+    }
   }
 
   const { account } = useWeb3React()
@@ -272,11 +280,14 @@ export const useTotalValue = (): BigNumber => {
   for(let i = 0; i < pools.length; i++) {
     const pool = pools[i]
     if(pool.totalStaked || pool.isFinished || currentBlock > pool.endBlock) {
-      let tokenPriceUsd = prices[pool.stakingToken.symbol.toLowerCase()]
-      if(pool.stakingToken === tokens.gme) tokenPriceUsd = gmePrice.toNumber();
-      if(!tokenPriceUsd) tokenPriceUsd = 0
-
-      const val = new BigNumber(getBalanceNumber(pool.totalStaked)).times(tokenPriceUsd)
+      let val;
+      if (pool.stakingToken === tokens.wbnb) {
+        val = (bnbPrice.times(getBalanceNumber(pool.totalStaked)));
+      }else if (pool.stakingToken === tokens.gme) {
+        val = (gmePrice.times(getBalanceNumber(pool.totalStaked)));
+      }else{
+        val = (pool.totalStaked);
+      }
       value = value.plus(val)
     }
   }

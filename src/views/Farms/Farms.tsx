@@ -7,7 +7,7 @@ import { Image, Heading, RowType, Toggle, Text } from '@gametoken/uikit'
 import styled from 'styled-components'
 import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
-import { useFarms, usePriceCakeBusd, useGetApiPrices } from 'state/hooks'
+import { useFarms, usePriceCakeBusd, useGetApiPrices, usePriceBnbBusd } from 'state/hooks'
 import useRefresh from 'hooks/useRefresh'
 import { fetchFarmUserDataAsync } from 'state/actions'
 import { Farm } from 'state/types'
@@ -124,11 +124,12 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
   const TranslateString = useI18n()
   const farmsLP = useFarms()
   const cakePrice = usePriceCakeBusd()
+  const bnbPrice = usePriceBnbBusd()
   const [query, setQuery] = useState('')
   const [viewMode, setViewMode] = useState(ViewMode.TABLE)
   const { account } = useWeb3React()
   const [sortOption, setSortOption] = useState('hot')
-  const prices = useGetApiPrices()
+  // const prices = useGetApiPrices()
   const gmePerBlock = useGmePerBlock();
   const { tokenMode } = farmsProps
 
@@ -176,14 +177,16 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
   const farmsList = useCallback(
     (farmsToDisplay: Farm[]): FarmWithStakedValue[] => {
       let farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsToDisplay.map((farm) => {
-        if (!farm.lpTotalInQuoteToken || !prices) {
+        if (!farm.lpTotalInQuoteToken) {
           return farm
         }
 
-        let quoteTokenPriceUsd = prices[farm.quoteToken.symbol.toLowerCase()]
+        let quoteTokenPriceUsd = 1
         if(farm.quoteToken.symbol === tokens.gme.symbol) quoteTokenPriceUsd = cakePrice.toNumber();
-        let tokenPriceUsd = prices[farm.token.symbol.toLowerCase()]
+        if(farm.quoteToken.symbol === tokens.wbnb.symbol) quoteTokenPriceUsd = cakePrice.toNumber();
+        let tokenPriceUsd = 1
         if(farm.token.symbol === tokens.gme.symbol) tokenPriceUsd = cakePrice.toNumber();
+        if(farm.token.symbol === tokens.wbnb.symbol) tokenPriceUsd = bnbPrice.toNumber()
         const totalLiquidity = farm.isTokenOnly ? new BigNumber(farm.tokenAmount).times(tokenPriceUsd) : new BigNumber(farm.lpTotalInQuoteToken).times(quoteTokenPriceUsd)
         const apy = isActive ? getFarmApy(farm.poolWeight, cakePrice, totalLiquidity, new BigNumber(getBalanceNumber(gmePerBlock, 18))) : 0
 
@@ -198,7 +201,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
       }
       return farmsToDisplayWithAPY
     },
-    [cakePrice, prices, query, isActive, gmePerBlock],
+    [cakePrice, bnbPrice, query, isActive, gmePerBlock],
   )
 
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
