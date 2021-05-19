@@ -12,7 +12,15 @@ const tokens = {
     decimals: 18,
     projectLink: 'https://gametoken.finance/',
   },
-
+  banana: {
+    symbol: 'BANANA',
+    address: {
+      56: '0x603c7f932ed1fc6575303d8fb018fdcbb0f39a95',
+      97: '',
+    },
+    decimals: 18,
+    projectLink: 'https://apeswap.finance/',
+  },
   mdo: {
     symbol: 'MDO',
     address: {

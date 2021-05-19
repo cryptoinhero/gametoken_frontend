@@ -191,6 +191,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
 
         const totalLiquidity = farm.isTokenOnly ? new BigNumber(farm.tokenAmount).times(tokenPriceUsd) : new BigNumber(farm.lpTotalInQuoteToken).times(quoteTokenPriceUsd)
         const apy = isActive ? getFarmApy(farm.poolWeight, cakePrice, totalLiquidity, new BigNumber(getBalanceNumber(gmePerBlock, 18))) : 0
+        console.log(farm, totalLiquidity.toNumber(), apy)
 
         return { ...farm, apy, liquidity: totalLiquidity }
       })

@@ -47,8 +47,7 @@ const farms: FarmConfig[] = [
       56: '0x7E74D582f47355AFAa7F644547d530A738704AE5',
     },
     token: tokens.gme,
-    quoteToken: tokens.wbnb,
-    
+    quoteToken: tokens.banana,    
   },
 
   {
