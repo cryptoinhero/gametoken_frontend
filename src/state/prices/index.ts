@@ -10,7 +10,7 @@ const initialState: PriceState = {
 
 // Thunks
 export const fetchPrices = createAsyncThunk<PriceApiResponse>('prices/fetch', async () => {
-  const response = await fetch('https://api.pancakeswap.com/api/v1/price')
+  const response = await fetch('https://api.pancakeswap.info/api/v2/tokens')
   const data = (await response.json()) as PriceApiResponse
 
   // Return normalized token names
@@ -28,7 +28,26 @@ export const fetchPrices = createAsyncThunk<PriceApiResponse>('prices/fetch', as
 export const pricesSlice = createSlice({
   name: 'prices',
   initialState,
-  reducers: {},
+  reducers: {
+    updatePriceList: (state, action) => {
+      const { tokens } = action.payload
+      if(!tokens) {
+        state.isLoading = true;
+        return;
+      }
+
+      const prices = {}
+      for(let i = 0; i < tokens.length; i++) {
+        const token = tokens[i]
+        if(token.tokenDayData.length > 0) {
+          prices[token.id.toLowerCase()] = parseFloat(token.tokenDayData[0].priceUSD)
+        }
+      }
+      state.isLoading = false
+      state.lastUpdated = action.payload.update_at
+      state.data = prices
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchPrices.pending, (state) => {
       state.isLoading = true
@@ -42,3 +61,6 @@ export const pricesSlice = createSlice({
 })
 
 export default pricesSlice.reducer
+
+// Actions
+export const { updatePriceList } = pricesSlice.actions

@@ -90,7 +90,6 @@ const fetchFarms = async () => {
           tokenPriceVsQuote = new BigNumber(quoteTokenBalanceLP).div(new BigNumber(tokenBalanceLP))
         }
       }
-
       const [info, totalAllocPoint] = await multicall(masterchefABI, [
         {
           address: getMasterChefAddress(),

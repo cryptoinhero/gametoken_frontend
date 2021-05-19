@@ -6,7 +6,7 @@ const tokens = {
   gme: {
     symbol: 'GME',
     address: {
-      56: '0xA2e62D43B5340E269Cad0A06D4813957BC56cA31',
+      56: '0xDD87Df4697527e6fBc5586cB0105bD8aB0FA7A61',
       97: '',
     },
     decimals: 18,

@@ -9,6 +9,8 @@ import { getWeb3NoAccount } from 'utils/web3'
 import { getBalanceNumber } from 'utils/formatBalance'
 import useRefresh from 'hooks/useRefresh'
 import tokens from 'config/constants/tokens';
+import { gql, useQuery } from '@apollo/client'
+import { getAddress } from 'utils/addressHelpers'
 import {
   fetchFarmsPublicDataAsync,
   fetchPoolsPublicDataAsync,
@@ -22,7 +24,7 @@ import { State, Farm, Pool, ProfileState, TeamsState, AchievementState, PriceSta
 import { fetchProfile } from './profile'
 import { fetchTeam, fetchTeams } from './teams'
 import { fetchAchievements } from './achievements'
-import { fetchPrices } from './prices'
+import { fetchPrices, updatePriceList } from './prices'
 
 const ZERO = new BigNumber(0)
 
@@ -184,9 +186,24 @@ export const useFetchPriceList = () => {
   const { slowRefresh } = useRefresh()
   const dispatch = useDispatch()
 
+  const allPriceQuery = gql`{
+    tokens(orderBy: tradeVolumeUSD orderDirection: desc first: 1000) {
+      id
+      symbol
+      name
+      derivedBNB: derivedETH
+      tokenDayData(orderBy: date orderDirection: desc, first: 1) {
+        id
+        dailyTxns
+        priceUSD
+      }
+    }
+  }`
+  const {data} = useQuery(allPriceQuery)
+  
   useEffect(() => {
-    dispatch(fetchPrices())
-  }, [dispatch, slowRefresh])
+    if(data) dispatch(updatePriceList(data))
+  }, [dispatch, data, slowRefresh])
 }
 
 export const useGetApiPrices = () => {
@@ -205,7 +222,7 @@ export const useGetApiPrice = (token: string) => {
 }
 
 export const usePriceBnbBusd = (): BigNumber => {
-  const pid = 3 // GME-BNB LP
+  const pid = 2 // GME-BNB LP
   const gmePriceUSD = usePriceCakeBusd();
   const farm = useFarmFromPid(pid)
   return farm.tokenPriceVsQuote ? gmePriceUSD.div(farm.tokenPriceVsQuote) : ZERO
@@ -231,45 +248,22 @@ export const useTotalValue = (): BigNumber => {
   const farms = useFarms();
   const gmePrice = usePriceCakeBusd()
   const bnbPrice = usePriceBnbBusd()
-  // const prices = useGetApiPrices()
+  const prices = useGetApiPrices()
   
   let value = new BigNumber(0);
   for (let i = 0; i < farms.length; i++) {
     const farm = farms[i]
-    // if (farm.lpTotalInQuoteToken) {
-    //   let quoteTokenPriceUsd = prices[farm.quoteToken.symbol.toLowerCase()]
-    //   if(farm.quoteToken === tokens.gme) quoteTokenPriceUsd = gmePrice.toNumber();
-    //   if (!quoteTokenPriceUsd) quoteTokenPriceUsd = 0
-
-    //   let tokenPriceUsd = prices[farm.token.symbol.toLowerCase()]
-    //   if(farm.token === tokens.gme) tokenPriceUsd = gmePrice.toNumber();
-    //   if(!tokenPriceUsd) tokenPriceUsd = 0
-        
-    //   const totalLiquidity = farm.isTokenOnly ? new BigNumber(farm.tokenAmount).times(tokenPriceUsd) : new BigNumber(farm.lpTotalInQuoteToken).times(quoteTokenPriceUsd)
-    //   value = value.plus(totalLiquidity);
-    // }
     if (farm.lpTotalInQuoteToken) {
-      if(!farm.isTokenOnly) {
-        let val;
-        if (farm.quoteToken === tokens.wbnb) {
-          val = (bnbPrice.times(farm.lpTotalInQuoteToken));
-        }else if (farm.quoteToken === tokens.gme) {
-          val = (gmePrice.times(farm.lpTotalInQuoteToken));
-        }else{
-          val = (farm.lpTotalInQuoteToken);
-        }
-        value = value.plus(val);
-      } else {
-        let val;
-        if (farm.token === tokens.wbnb) {
-          val = (bnbPrice.times(farm.tokenAmount));
-        }else if (farm.token === tokens.gme) {
-          val = (gmePrice.times(farm.tokenAmount));
-        }else{
-          val = (farm.tokenAmount);
-        }
-        value = value.plus(val);
-      }
+      let quoteTokenPriceUsd = prices && prices[getAddress(farm.quoteToken.address).toLowerCase()] ? prices[getAddress(farm.quoteToken.address).toLowerCase()] : 1
+      if(farm.quoteToken === tokens.gme) quoteTokenPriceUsd = gmePrice.toNumber();
+      if (!quoteTokenPriceUsd) quoteTokenPriceUsd = 0
+
+      let tokenPriceUsd = prices && prices[getAddress(farm.token.address).toLowerCase()] ? prices[getAddress(farm.token.address).toLowerCase()] : 1
+      if(farm.token === tokens.gme) tokenPriceUsd = gmePrice.toNumber();
+      if(!tokenPriceUsd) tokenPriceUsd = 0
+        
+      const totalLiquidity = farm.isTokenOnly ? new BigNumber(farm.tokenAmount).times(tokenPriceUsd) : new BigNumber(farm.lpTotalInQuoteToken).times(quoteTokenPriceUsd)
+      value = value.plus(totalLiquidity);
     }
   }
 

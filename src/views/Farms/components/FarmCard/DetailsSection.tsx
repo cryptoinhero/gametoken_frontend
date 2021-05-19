@@ -23,12 +23,10 @@ const StyledLinkExternal = styled(LinkExternal)`
 
 const DetailsSection: React.FC<ExpandableSectionProps> = ({
   bscScanAddress,
-  infoAddress,
   removed,
   totalValueFormatted,
   lpLabel,
   addLiquidityUrl,
-  isTokenOnly,
 }) => {
   const TranslateString = useI18n()
 

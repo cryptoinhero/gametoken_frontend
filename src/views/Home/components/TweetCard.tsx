@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardBody, Heading } from '@gametoken/uikit'
 import styled, { useTheme } from 'styled-components'
-import { TwitterTimelineEmbed } from 'react-twitter-embed'
+import { Timeline } from 'react-twitter-widgets'
 
 const StyledTweetCard = styled(Card)`
   min-height: 376px;
@@ -13,14 +13,16 @@ const TweetCard = () => {
     <StyledTweetCard>
       <CardBody>
         <Heading size="lg">Latest Tweet From Gametoken</Heading>
-        <TwitterTimelineEmbed
-          sourceType="profile"
-          screenName="GameTokenFi"
-          options={{ tweetLimit: '1' }}
-          noHeader
-          noBorders
-          noFooter
-          theme={isDark ? "dark": "light"}
+        <Timeline
+          dataSource={{
+            sourceType: 'profile',
+            screenName: 'GameTokenFi'
+          }}
+          options={{
+            theme: `${isDark ? 'dark' : 'light'}`,
+            height: '350',
+            chrome: "noheader, nofooter",
+          }}
         />
       </CardBody>
     </StyledTweetCard>

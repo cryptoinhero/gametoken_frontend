@@ -17,6 +17,7 @@ import { getFarmApy } from 'utils/apy'
 import { orderBy } from 'lodash'
 import tokens from 'config/constants/tokens'
 import { useGmePerBlock } from 'hooks/useTokenBalance'
+import { getAddress } from 'utils/addressHelpers'
 
 import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
 import Table from './components/FarmTable/FarmTable'
@@ -129,7 +130,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
   const [viewMode, setViewMode] = useState(ViewMode.TABLE)
   const { account } = useWeb3React()
   const [sortOption, setSortOption] = useState('hot')
-  // const prices = useGetApiPrices()
+  const prices = useGetApiPrices()
   const gmePerBlock = useGmePerBlock();
   const { tokenMode } = farmsProps
 
@@ -181,12 +182,13 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
           return farm
         }
 
-        let quoteTokenPriceUsd = 1
+        let quoteTokenPriceUsd = prices && prices[getAddress(farm.quoteToken.address).toLowerCase()] ? prices[getAddress(farm.quoteToken.address).toLowerCase()] : 1
         if(farm.quoteToken.symbol === tokens.gme.symbol) quoteTokenPriceUsd = cakePrice.toNumber();
-        if(farm.quoteToken.symbol === tokens.wbnb.symbol) quoteTokenPriceUsd = cakePrice.toNumber();
-        let tokenPriceUsd = 1
+        if(farm.quoteToken.symbol === tokens.wbnb.symbol) quoteTokenPriceUsd = bnbPrice.toNumber();
+        let tokenPriceUsd = prices && prices[getAddress(farm.token.address).toLowerCase()] ? prices[getAddress(farm.token.address).toLowerCase()] : 1
         if(farm.token.symbol === tokens.gme.symbol) tokenPriceUsd = cakePrice.toNumber();
         if(farm.token.symbol === tokens.wbnb.symbol) tokenPriceUsd = bnbPrice.toNumber()
+
         const totalLiquidity = farm.isTokenOnly ? new BigNumber(farm.tokenAmount).times(tokenPriceUsd) : new BigNumber(farm.lpTotalInQuoteToken).times(quoteTokenPriceUsd)
         const apy = isActive ? getFarmApy(farm.poolWeight, cakePrice, totalLiquidity, new BigNumber(getBalanceNumber(gmePerBlock, 18))) : 0
 
@@ -201,7 +203,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
       }
       return farmsToDisplayWithAPY
     },
-    [cakePrice, bnbPrice, query, isActive, gmePerBlock],
+    [cakePrice, bnbPrice, prices, query, isActive, gmePerBlock],
   )
 
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
